@@ -14,4 +14,4 @@ npm i @wasm-tool/node
 node --experimental-modules --loader @wasm-tool/node index.mjs
 ```
 
-See [example](./blob/master/example).
+See [example](https://github.com/wasm-tool/node-loader/tree/master/example).
