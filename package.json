@@ -21,5 +21,9 @@
   "bugs": {
     "url": "https://github.com/wasm-tool/node-loader/issues"
   },
-  "homepage": "https://github.com/wasm-tool/node-loader#readme"
+  "homepage": "https://github.com/wasm-tool/node-loader#readme",
+  "dependencies": {
+    "@webassemblyjs/ast": "^1.5.12",
+    "@webassemblyjs/wasm-parser": "^1.5.12"
+  }
 }
