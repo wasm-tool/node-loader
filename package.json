@@ -1,0 +1,25 @@
+{
+  "name": "@wasm-tool/node",
+  "version": "0.0.1",
+  "description": "WASM loader for Node",
+  "main": "./loader.mjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wasm-tool/node-loader.git"
+  },
+  "keywords": [
+    "loader",
+    "wasm",
+    "webassembly",
+    "node"
+  ],
+  "author": "Sven Sauleau",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/wasm-tool/node-loader/issues"
+  },
+  "homepage": "https://github.com/wasm-tool/node-loader#readme"
+}
