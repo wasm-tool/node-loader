@@ -4,7 +4,7 @@
 
 ## Installation
 
-```js
+```sh
 npm i @wasm-tool/node
 ```
 
