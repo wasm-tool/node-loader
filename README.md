@@ -2,6 +2,8 @@
 
 > WASM loader for Node
 
+Requires the latest version of Node (Node v10).
+
 ## Installation
 
 ```sh
