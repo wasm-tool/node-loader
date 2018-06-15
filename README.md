@@ -13,3 +13,5 @@ npm i @wasm-tool/node
 ```sh
 node --experimental-modules --loader @wasm-tool/node index.mjs
 ```
+
+See [example](./blob/master/example).
