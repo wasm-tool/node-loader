@@ -1,16 +1,7 @@
 import fs from "fs"
 import path from "path"
 
-import parser from "@webassemblyjs/wasm-parser";
-import t from "@webassemblyjs/ast";
-
 let internalDefaultResolver;
-
-const decoderOpts = {
-  ignoreCodeSection: true,
-  ignoreDataSection: true,
-  ignoreCustomNameSection: true
-};
 
 async function loadDependency(module, name) {
   const fqmodule = internalDefaultResolver(module).url;
@@ -31,23 +22,12 @@ export async function dynamicInstantiate(url) {
   const wasmImports = [];
   const dependenciesPromise = [];
 
-  /**
-   * wasm introspection
-   */
-  const ast = parser.decode(buffer, decoderOpts);
-
-  t.traverse(ast, {
-    ModuleExport({ node }) {
-      wasmExports.push(node.name);
-    },
-
-    ModuleImport({ node }) {
-      dependenciesPromise.push(
-        loadDependency(node.module, node.name)
-      );
-
-      wasmImports.push([node.module, node.name]);
-    }
+  WebAssembly.Module.imports(module).forEach((i) => {
+    dependenciesPromise.push(loadDependency(i.module, i.name));
+    wasmImports.push([i.module, i.name]);
+  });
+  WebAssembly.Module.exports(module).forEach(({ name }) => {
+    wasmExports.push(name);
   });
 
   /**
