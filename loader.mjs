@@ -24,7 +24,7 @@ function readFile(path) {
 }
 
 export async function dynamicInstantiate(url) {
-  const buffer = readFile(url);
+  const buffer = readFile((new URL(url)).pathname);
   const module = new WebAssembly.Module(buffer);
 
   const wasmExports = [];
@@ -86,7 +86,7 @@ export function resolve(specifier, base, defaultResolver) {
 
   if (ext === ".wasm") {
     return {
-      url: specifier,
+      url: path.join(path.dirname(base), specifier),
       format: 'dynamic'
     };
   }
