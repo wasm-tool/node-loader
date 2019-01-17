@@ -1,12 +1,8 @@
 import fs from "fs"
 import path from "path"
 
-let internalDefaultResolver;
-
-async function loadDependency(module, name) {
-  const fqmodule = internalDefaultResolver(module).url;
-  const dep = await import(fqmodule);
-
+async function loadDependency(base, specifier, name) {
+  const dep = await import(new URL(specifier, base));
   return dep[name];
 }
 
@@ -23,12 +19,12 @@ export async function dynamicInstantiate(url) {
    */
   const importObject = {};
 
-  await Promise.all(WebAssembly.Module.imports(module).map(async ({ module, name }) => {
-    if (typeof importObject[module] === "undefined") {
-      importObject[module] = {};
+  await Promise.all(WebAssembly.Module.imports(module).map(async ({ module: importURL, name }) => {
+    if (typeof importObject[importURL] === "undefined") {
+      importObject[importURL] = {};
     }
 
-    importObject[module][name] = await loadDependency(module, name);
+    importObject[importURL][name] = await loadDependency(url, importURL, name);
   }));
 
   /**
@@ -49,18 +45,18 @@ export async function dynamicInstantiate(url) {
   };
 }
 
+const baseURL = new URL('file://');
+baseURL.pathname = `${process.cwd()}/`;
+
 export function resolve(specifier, base, defaultResolver) {
   const ext = path.extname(specifier);
 
   if (ext === ".wasm") {
     return {
-      url: new URL(specifier, base).href,
+      url: new URL(specifier, base || baseURL).href,
       format: 'dynamic'
     };
   }
 
-  internalDefaultResolver = defaultResolver;
-
   return defaultResolver(specifier, base);
 }
-

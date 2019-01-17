@@ -16,6 +16,12 @@ npm i @wasm-tool/node
 node --experimental-modules --loader @wasm-tool/node index.mjs
 ```
 
+Or, if your WASM is the main executable:
+
+```sh
+node --experimental-modules --loader @wasm-tool/node index.wasm
+```
+
 See [example](https://github.com/wasm-tool/node-loader/tree/master/example).
 
 ## Development
